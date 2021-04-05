@@ -13,7 +13,7 @@
   <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">R-KART</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -38,18 +38,22 @@
 </nav>
     </header>
     <section>
-        <div class="container">
+        <div class="container mt-5">
             <div class="row">
+                {{#each products}}
                 <div class="col-md-3">
                     <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
+  <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <h5 class="card-title">{{this.name}}</h5>
+     <p class="card-text">{{this.category}}</p>
+      <p class="card-text">{{this.price}}</p>
+    <p class="card-text">{{this.description}}</p>
+    <a href="#" class="btn btn-primary">Add to Cart</a>
   </div>
 </div>
                 </div>
+                {{/each}}
             </div>
         </div>
     </section>
