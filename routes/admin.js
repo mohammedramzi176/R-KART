@@ -11,5 +11,12 @@ router.get('/', function(req, res, next) {
     ]
   res.render('admin/view-products',{products,admin:true});
 });
+router.get("/add-products",(req,res)=>{
+  res.render("admin/add-products")
+})
+router.post("/add-products",(req,res)=>{
+  console.log(req.body);
+  console.log(req.files.Image);
+})
 
 module.exports = router;
