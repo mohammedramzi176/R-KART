@@ -1,5 +1,8 @@
 <form action="/login" method="POST"  class="mt-5 ml-5">
   <div class="form-group">
+      {{#if loginErr}}
+      <p class="error">Enter valid email or password</p>
+      {{/if}}
     <label for="exampleInputEmail1">Email address</label>
     <input type="email"  style="width: 300px;" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
