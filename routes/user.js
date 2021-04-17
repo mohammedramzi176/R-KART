@@ -6,6 +6,8 @@ var userHelpers=require("../helpers/user-helpers")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  let user=req.session.user
+  console.log(user);
   productHelpers.getAllProducts().then((products)=>{
     console.log(products);
    res.render('user/view-products',{products});
@@ -33,6 +35,10 @@ router.post("/login",(req,res)=>{
       res.redirect("/login")
     }
   })
+})
+router.get("/logout",(req,res)=>{
+  req.session.destroy()
+  res.redirect("/")
 })
 
 module.exports = router;
