@@ -27,6 +27,13 @@ deleteProduct:(proId)=>{
                console.log(response);
            })
     })
+},
+getProductDetails:(proId)=>{
+    return new promise((resolve,reject)=>{
+            db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectId(proId)}).then((product)=>{
+                resolve(product)
+            })
+    })
 }
 
 
