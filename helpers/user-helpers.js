@@ -11,7 +11,7 @@ module.exports={
         })
        
     },
-    doLogin:()=>{
+    doLogin:(userData)=>{
         return new Promise(async(resolve,reject)=>{
             let loginStatus=false
           let response={}
