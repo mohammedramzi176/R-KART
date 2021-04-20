@@ -43,5 +43,9 @@ router.get("/edit-product/:id",async(req,res)=>{
   console.log(product);
   res.render("admin/edit-product",{product})
 })
-
+router.post("/edit-product",(req,res)=>{
+  productHelpers.updateProduct(req.params.id,req.body).then(()=>{
+    res.redirect("/admin")
+  })
+})
 module.exports = router;
