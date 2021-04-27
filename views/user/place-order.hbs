@@ -93,7 +93,15 @@ var rzp1 = new Razorpay(options);
                 payment,
                 order
             },
-            method:"post"
+            method:"post",
+            success:(response)=>{
+                if(response.status){
+                    location.href="/order-success"
+                }else{
+                    alert("payment failed")
+                }
+
+            }
         })
     }
 </script>
