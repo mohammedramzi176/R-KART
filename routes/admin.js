@@ -1,8 +1,52 @@
 var express = require('express');
 var router = express.Router();
 var productHelpers=require("../helpers/product-helpers")
+const verifyLogin=(req,res,next)=>{
+  if(req.session.admin.loggedIn){
+    next()
+
+  }else{
+res.redirect("/login")
+  }
+}
 
 /* GET users listing. */
+router.get("/signup",(req,res)=>{
+  res.render("admin/signup")
+})
+router.post("/signup",(req,res)=>{
+  userHelpers.doSignup(req.body).then((response)=>{
+    console.log(response);
+   
+    req.session.admin=response
+    req.session.admin.loggedIn=true
+    res.redirect("/")
+    
+  })
+})
+router.get("/login",(req,res)=>{
+  if(req.session.admin)
+  {
+    res.redirect("/")
+  }
+  else
+  res.render("admin/login",{"loginErr":req.session.adminloginErr})
+  req.session.adminloginErr=false
+})
+router.post("/login",(req,res)=>{
+  userHelpers.doLogin(req.body).then((response)=>{
+    if(response.status){
+      req.session.admin=response.user
+      req.session.admin.loggedIn=true
+      
+      res.redirect("/")
+    }
+    else{
+      req.session.adminloginErr="invalid username or password"
+      res.redirect("/login")
+    }
+  })
+})
 router.get('/', function(req, res, next) {
  productHelpers.getAllProducts().then((products)=>{
    console.log(products);
@@ -54,4 +98,5 @@ router.post("/edit-product",(req,res)=>{
     }
   })
 })
+
 module.exports = router;
