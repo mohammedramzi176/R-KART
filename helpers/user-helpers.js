@@ -5,6 +5,11 @@ const bcrypt=require("bcrypt")
 var objectId=require("mongodb").ObjectID;
 const { resolve, reject } = require("promise");
 const { response } = require("express");
+const Razorpay=require("razorpay")
+var instance = new Razorpay({
+    key_id: 'rzp_test_fb167lGxsTHVht',
+    key_secret: 'XtBwBafh6Vf2PZW96YSjUkBJ',
+  });
 module.exports={
     doSignup:(userData)=>{
         return new Promise(async(resolve,reject)=>{
@@ -244,11 +249,12 @@ module.exports={
                             paymentMethod:order["payment-method"],
                             products:products,
                             totalAmount:total,
-                            status:status
+                            status:status,
+                            date:new Date()
                         }
                         db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response)=>{
                            db.get().collection(collection.CART_COLLECTION).removeOne({user:objectId(order.userId)})
-                            resolve()
+                            resolve(response.ops[0]._id)
                         })
 
                     })
@@ -301,6 +307,24 @@ module.exports={
                   console.log(orderItems);
                   resolve(orderItems)
                     })
+                },
+                generateRazorpay:(orderId,total)=>{
+                        return new Promise((resolve,reject)=>{
+                            var options = {
+                                amount: total,  // amount in the smallest currency unit
+                                currency: "INR",
+                                receipt:""+orderId
+                              };
+                              instance.orders.create(options, function(err, order) {
+                                  if(err){
+                                      console.log(err);
+                                  }else{
+                                console.log("New order:",order);
+                                resolve(order)
+                                  }
+                              });
+                            
+                        })
                 }
             
 
